@@ -30,10 +30,16 @@ collect.py → stronger model → artifacts/*.md → gleanin (skill)
 
 ## Installation
 
+One-liner — clones glean, installs the gleanin skill, and wires it into
+`CLAUDE.md` so its rules load every session:
+
 ```bash
-git clone https://github.com/pcx-wave/glean.git
-cd glean
+git clone https://github.com/pcx-wave/glean.git ~/glean && mkdir -p ~/.claude/skills && ln -sf ~/glean/gleanin ~/.claude/skills/gleanin && grep -qxF '@~/.claude/skills/gleanin/SKILL.md' ~/.claude/CLAUDE.md 2>/dev/null || echo '@~/.claude/skills/gleanin/SKILL.md' >> ~/.claude/CLAUDE.md
 ```
+
+That's it for setup. `glean` itself (the collection pipeline) isn't a
+service — it's the scripts in `~/glean/collector/`, run on demand (see
+Quick start below).
 
 **Prerequisites:**
 - Python 3.x (stdlib only)
@@ -43,6 +49,8 @@ cd glean
 ## Quick start
 
 ```bash
+cd ~/glean
+
 # 1. List sessions sorted by friction density
 # (defaults to your "sonnet" sessions — the cheaper model you're improving;
 #  pass --model-filter '' to see all models)
@@ -55,17 +63,14 @@ cat /path/to/session.jsonl | claude -p "$(cat prompt.md)" --model fable > artifa
 python3 collector/anonymize.py artifacts/my-rule.md
 vim artifacts/my-rule.md
 
-# 4. Install the gleanin skill
-ln -s "$(pwd)/gleanin" ~/.claude/skills/gleanin
-
-# 5. Load rules every session
-echo '@~/.claude/skills/gleanin/SKILL.md' >> ~/.claude/CLAUDE.md
+# 4. Rebuild gleanin/SKILL.md from artifacts/ (installed via the one-liner above)
+bash gleanin/sync.sh
 ```
 
-The symlink installs gleanin into Claude Code's skill directory. The
-`@`-import in `CLAUDE.md` loads its content (including the generated rules)
-into every session automatically. Only that one line lives in `CLAUDE.md` —
-the rules themselves stay in `artifacts/` and `gleanin/SKILL.md`.
+The `@`-import added during installation loads `gleanin/SKILL.md`'s content
+(including the generated rules) into every session automatically. Only that
+one line lives in `CLAUDE.md` — the rules themselves stay in `artifacts/`
+and `gleanin/SKILL.md`.
 
 ## Concrete results
 
