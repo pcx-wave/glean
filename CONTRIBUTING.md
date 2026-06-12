@@ -8,11 +8,12 @@ Rules are submitted via **pull requests** to `artifacts/`.
 1. python3 collector/collect.py --since-days 7
 2. Pick the most painful session
 3. Send it to Fable (or your strongest model) using prompt.md
-4. Copy the output → artifacts/<name>.md
+4. Copy output → artifacts/<name>.md
 5. Add analyzed_by + session_hash frontmatter
-6. Remove any credentials, project names, code, URLs
-7. Open a PR
-8. Once merged: git pull && bash gleanin/sync.sh
+6. python3 collector/anonymize.py artifacts/<name>.md
+7. Review, remove anything the script missed
+8. Open a PR
+9. Once merged: git pull && bash gleanin/sync.sh
 ```
 
 ## Artifact format
@@ -26,9 +27,9 @@ session_hash: a3f8b2c
 
 # artifact-name
 
-**What went wrong:** <one sentence>
+**What went wrong:** <1 sentence>
 
-**Rule:** <≤10 lines, actionable>
+**Rule:** <≤5 lines, verb-first>
 
 **Check:** <one grep/bash/node command>
 ```

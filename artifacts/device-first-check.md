@@ -6,17 +6,13 @@ session_hash: dd0e343b
 
 # device-first-check
 
-**What went wrong:** The model asked the user for facts that were
-available on the filesystem (READMEs, config files, directory listings),
-declared a service "not deployed" without testing the URL, and committed
-visible file corruption because it never checked the tail of the edited
-file.
+**What went wrong:** Asked user for facts the filesystem already held,
+declared service "not deployed" without testing, committed file
+corruption without tail check.
 
-**Rule:** Before asking the user for information, search the filesystem
-first (`find`, `grep`, `ls`). Before declaring something "not deployed,"
-test the URL with `curl -sI`. Before committing, check the edited file's
-structural integrity (syntax check, tail check for stray characters).
+**Rule:**
+1. Search filesystem (`find`, `grep`, `ls`) before asking the user.
+2. `curl -sI` before declaring anything "not deployed."
+3. Syntax check + tail check before committing.
 
-**Check:** `grep -c "AskUserQuestion\|curl.*not.find\|edit.*then.*ask"`
-in session transcript — these patterns should be near zero after this
-rule is applied.
+**Check:** `grep -c "AskUserQuestion\|curl.*not.find\|edit.*then.*ask"` in session transcript — near zero with this rule.

@@ -6,16 +6,12 @@ session_hash: b8d83e5
 
 # reference-first-porting
 
-**What went wrong:** When porting code from a reference implementation,
-the model derived the math from memory and conversation instead of reading
-the reference file first. Result: 15 edits to guess the correct formula,
-multiple user corrections, and a session limit hit.
+**What went wrong:** Ported math from memory instead of reading the
+reference first. Result: 15 edit loops, session limit hit.
 
-**Rule:** Before editing any formula, algorithm, or data transformation,
-read the reference implementation (paper, legacy code, pasted table)
-first. Cite file:line per edit. Apply user-supplied values verbatim
-before any re-derivation.
+**Rule:**
+1. Read the reference before editing any formula or algorithm.
+2. Cite `file:line` per edit.
+3. Apply supplied values verbatim before re-derivation.
 
-**Check:** `grep -rn "TODO\|FIXME\|guess\|maybe" <target-file>` — these
-markers should appear zero times after a port. If they appear, the model
-didn't anchor on the reference.
+**Check:** `grep -rn "TODO\|FIXME\|guess\|maybe" <target-file>` — zero after a port.

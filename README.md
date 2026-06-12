@@ -1,11 +1,13 @@
 # glean
 
-Extract rules from failing Claude Code sessions using a stronger model.
+Improve your cheaper Claude models with daily guards from stronger ones.
 
-Two tools, one repo:
+This repo has two tools:
 
-- **glean** — pipeline that scans logs, feeds them to a stronger model (Fable, Opus), and produces structured rules.
-- **gleanin** — skill that loads those rules at every session start. A separate skill avoids bloating `CLAUDE.md`.
+- **glean** — collects failure/friction session data and analyzes them
+  with a stronger model (Fable, Opus) to extract structured rules.
+- **gleanin** — a Claude Code skill that loads those rules every session
+  so future code benefits from past mistakes.
 
 ```
 collect.py → stronger model → artifacts/*.md → gleanin (skill)
@@ -16,14 +18,14 @@ collect.py → stronger model → artifacts/*.md → gleanin (skill)
 
 1. **Collect** — `python3 collector/collect.py` scans your Claude Code logs
    and prints them sorted by friction density (errors + edits + corrections
-   per 1000 lines, with corrections weighted 5×).
+   per 1000 lines, corrections weighted 5×).
 2. **Analyze** — Send a session + `prompt.md` to a stronger model (Fable,
    Opus). It returns a structured rule.
 3. **Store** — Save the rule in `artifacts/` with frontmatter (title, date,
-   model, rating). Strip project names, code, credentials.
+   model, rating). Run `collector/anonymize.py` to strip sensitive info.
 4. **Load** — Install the gleanin skill. It loads every rule in
    `artifacts/` at session start — no `CLAUDE.md` bloat.
-5. **Contribute** — Open a PR with your anonymized rule.
+5. **Contribute** — Run `collector/anonymize.py`, review, open a PR.
 
 ## Installation
 
@@ -46,7 +48,8 @@ python3 collector/collect.py
 # 2. Analyze a session with a stronger model
 cat /path/to/session.jsonl | claude -p "$(cat prompt.md)" --model fable > artifacts/my-rule.md
 
-# 3. Add frontmatter, remove project names / code / credentials
+# 3. Add frontmatter, anonymize, review
+python3 collector/anonymize.py artifacts/my-rule.md
 vim artifacts/my-rule.md
 
 # 4. Install the gleanin skill to load rules at every session start
@@ -73,13 +76,15 @@ every session. Rules stay out of `CLAUDE.md`.
 ```
 glean/
 ├── README.md
-├── collector/collect.py   ← friction scanner (Python stdlib)
-├── prompt.md              ← analysis protocol for the stronger model
-├── artifacts/             ← extracted rules (community-contributable)
-├── gleanin/               ← Claude Code skill that loads rules
-│   ├── SKILL.md           ← injected at session start
-│   └── sync.sh            ← rebuilds SKILL.md from artifacts/
-├── CONTRIBUTING.md        ← how to submit a rule
+├── collector/
+│   ├── collect.py       ← friction scanner (Python stdlib)
+│   └── anonymize.py     ← strips sensitive info from artifacts
+├── prompt.md            ← analysis protocol for the stronger model
+├── artifacts/           ← extracted rules (community-contributable)
+├── gleanin/             ← Claude Code skill that loads rules
+│   ├── SKILL.md         ← injected at session start
+│   └── sync.sh          ← rebuilds SKILL.md from artifacts/
+├── CONTRIBUTING.md      ← how to submit a rule
 └── LICENSE
 ```
 

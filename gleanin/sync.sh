@@ -6,7 +6,7 @@
 #
 # Reads artifacts from GLEAN_DIR/artifacts/ (default: ~/glean/artifacts/)
 # and rewrites the Rules section in this skill's SKILL.md.
-# Each artifact section is limited to 1+5+1 lines (what+rule+check).
+# Each artifact section renders rule (≤5 lines) + check (≤1 line).
 set -u
 
 SKILL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -82,12 +82,10 @@ for f in sorted(glob.glob(os.path.join(artifacts_dir, '*.md'))):
         elif current == 'check':
             check.append(s)
 
-    # Limit: what=1 line, rule=5 lines, check=1 line
-    what_text = ' '.join(w for w in what if w).strip()[:200]
     rule_text = '\\n'.join(r for r in rule if r.strip())[:600]
     check_text = ' '.join(c for c in check if c).strip()[:200]
 
-    rules_text = f'**What went wrong:** {what_text}\\n\\n**Rule:**\\n{rule_text}\\n\\n**Check:** {check_text}'
+    rules_text = f'**Rule:**\\n{rule_text}\\n\\n**Check:** {check_text}'
     rules.append((name, rules_text))
 
 # Read existing SKILL.md
