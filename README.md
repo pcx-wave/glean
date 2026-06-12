@@ -23,8 +23,10 @@ collect.py → stronger model → artifacts/*.md → gleanin (skill)
    Opus). It returns a structured rule.
 3. **Store** — Save the rule in `artifacts/` with frontmatter (title, date,
    model, rating). Run `collector/anonymize.py` to strip sensitive info.
-4. **Load** — Install the gleanin skill. It loads every rule in
-   `artifacts/` at session start — no `CLAUDE.md` bloat.
+4. **Load** — Install the gleanin skill, then add a one-line `@`-import to
+   `~/.claude/CLAUDE.md`. Claude Code loads imported files into context every
+   session, so every rule in `artifacts/` is applied automatically — without
+   pasting the rules themselves into `CLAUDE.md`.
 
 ## Installation
 
@@ -42,6 +44,8 @@ cd glean
 
 ```bash
 # 1. List sessions sorted by friction density
+# (defaults to your "sonnet" sessions — the cheaper model you're improving;
+#  pass --model-filter '' to see all models)
 python3 collector/collect.py
 
 # 2. Analyze a session with a stronger model
@@ -51,13 +55,17 @@ cat /path/to/session.jsonl | claude -p "$(cat prompt.md)" --model fable > artifa
 python3 collector/anonymize.py artifacts/my-rule.md
 vim artifacts/my-rule.md
 
-# 4. Install the gleanin skill to load rules at every session start
+# 4. Install the gleanin skill
 ln -s "$(pwd)/gleanin" ~/.claude/skills/gleanin
+
+# 5. Load rules every session
+echo '@~/.claude/skills/gleanin/SKILL.md' >> ~/.claude/CLAUDE.md
 ```
 
-The symlink installs gleanin into Claude Code's skill directory.
-Reference it in `CLAUDE.md` or set up auto-loading so it runs
-every session. Rules stay out of `CLAUDE.md`.
+The symlink installs gleanin into Claude Code's skill directory. The
+`@`-import in `CLAUDE.md` loads its content (including the generated rules)
+into every session automatically. Only that one line lives in `CLAUDE.md` —
+the rules themselves stay in `artifacts/` and `gleanin/SKILL.md`.
 
 ## Concrete results
 

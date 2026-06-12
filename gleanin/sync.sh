@@ -4,13 +4,15 @@
 # Usage:
 #   bash ~/.claude/skills/gleanin/sync.sh
 #
-# Reads artifacts from GLEAN_DIR/artifacts/ (default: ~/glean/artifacts/)
-# and rewrites the Rules section in this skill's SKILL.md.
+# Reads artifacts from GLEAN_DIR/artifacts/ and rewrites the Rules section
+# in this skill's SKILL.md. GLEAN_DIR defaults to the repo containing this
+# script, resolved through symlinks (so it works whether invoked from the
+# repo directly or via the ~/.claude/skills/gleanin symlink).
 # Each artifact section renders rule (≤5 lines) + check (≤1 line).
 set -u
 
-SKILL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-GLEAN_DIR="${GLEAN_DIR:-$HOME/glean}"
+SKILL_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
+GLEAN_DIR="${GLEAN_DIR:-$(dirname "$SKILL_DIR")}"
 ARTIFACTS_DIR="$GLEAN_DIR/artifacts"
 SKILL_FILE="$SKILL_DIR/SKILL.md"
 

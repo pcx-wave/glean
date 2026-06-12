@@ -1,3 +1,12 @@
+---
+name: gleanin
+description: >
+  Rules distilled from past session friction (errors, edit loops, corrections),
+  analyzed by a stronger model and applied to guide future work. Regenerated
+  from glean/artifacts/ by sync.sh — load every session via CLAUDE.md.
+license: MIT
+---
+
 # gleanin
 
 Rules from past failures. Apply every session.
