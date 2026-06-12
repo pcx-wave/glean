@@ -2,9 +2,14 @@
 
 Extract rules from failing Claude Code sessions using a stronger model.
 
+Two tools, one repo:
+
+- **glean** — pipeline that scans logs, feeds them to a stronger model (Fable, Opus), and produces structured rules.
+- **gleanin** — skill that loads those rules at every session start. A separate skill avoids bloating `CLAUDE.md`.
+
 ```
-collect.py → stronger model → artifacts/*.md → copy into CLAUDE.md
-(scans logs) (analyzes)       (rule)          (at session start)
+collect.py → stronger model → artifacts/*.md → gleanin (skill)
+(scans logs) (analyzes)       (rule)          (loaded every session)
 ```
 
 ## How it works
@@ -14,9 +19,11 @@ collect.py → stronger model → artifacts/*.md → copy into CLAUDE.md
    per 1000 lines, with corrections weighted 5×).
 2. **Analyze** — Send a session + `prompt.md` to a stronger model (Fable,
    Opus). It returns a structured rule.
-3. **Load** — Copy the rule into `~/.claude/CLAUDE.md`. Your daily model
-   reads it at session start.
-4. **Contribute** — Open a PR to `artifacts/` with your anonymized rule.
+3. **Store** — Save the rule in `artifacts/` with frontmatter (title, date,
+   model, rating). Strip project names, code, credentials.
+4. **Load** — Install the gleanin skill. It loads every rule in
+   `artifacts/` at session start — no `CLAUDE.md` bloat.
+5. **Contribute** — Open a PR with your anonymized rule.
 
 ## Installation
 
@@ -42,12 +49,13 @@ cat /path/to/session.jsonl | claude -p "$(cat prompt.md)" --model fable > artifa
 # 3. Add frontmatter, remove project names / code / credentials
 vim artifacts/my-rule.md
 
-# 4. Copy the rule into CLAUDE.md so your daily model reads it
-echo '
-## glean rules
-- **my-new-rule:** <what the rule says, 1 line>
-' >> ~/.claude/CLAUDE.md
+# 4. Install the gleanin skill to load rules at every session start
+ln -s "$(pwd)/gleanin" ~/.claude/skills/gleanin
 ```
+
+The symlink installs gleanin into Claude Code's skill directory.
+Reference it in `CLAUDE.md` or set up auto-loading so it runs
+every session. Rules stay out of `CLAUDE.md`.
 
 ## Concrete results
 
@@ -68,7 +76,11 @@ glean/
 ├── collector/collect.py   ← friction scanner (Python stdlib)
 ├── prompt.md              ← analysis protocol for the stronger model
 ├── artifacts/             ← extracted rules (community-contributable)
-└── CONTRIBUTING.md        ← how to submit a rule
+├── gleanin/               ← Claude Code skill that loads rules
+│   ├── SKILL.md           ← injected at session start
+│   └── sync.sh            ← rebuilds SKILL.md from artifacts/
+├── CONTRIBUTING.md        ← how to submit a rule
+└── LICENSE
 ```
 
 ## License
