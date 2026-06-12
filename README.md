@@ -74,8 +74,19 @@ and `gleanin/SKILL.md`.
 
 ## Concrete results
 
-4 rules extracted from one person's sessions. Your friction patterns
-will be different — use the pipeline to find yours.
+4 rules extracted from one person's Sonnet sessions. Your friction
+patterns will be different — use the pipeline to find yours.
+
+### Friction categories observed
+
+| Category | Example rule | Root cause |
+|----------|-------------|------------|
+| **Weak planning** | `reference-first-porting` | Model jumps to code instead of reading the reference first |
+| **False confidence** | `delegation-preflight` | Orchestrator trusts delegate's "OK" signal without verifying |
+| **Lazy diagnostics** | `device-first-check` | Asks user for facts the filesystem already holds |
+| **Scope confusion** | `credentialed-write-gate` | Writes infra with ambient creds to wrong environment |
+
+### Rule catalog
 
 | Rule | What it prevents |
 |------|-----------------|
