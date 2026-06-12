@@ -12,7 +12,7 @@ Rules are submitted via **pull requests** to `artifacts/`.
 5. Add analyzed_by + session_hash frontmatter
 6. Remove any credentials, project names, code, URLs
 7. Open a PR
-8. Once merged: git pull && bash ~/.claude/skills/gleanin/sync.sh
+8. Once merged: git pull && bash gleanin/sync.sh
 ```
 
 ## Artifact format
