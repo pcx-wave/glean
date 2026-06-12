@@ -25,7 +25,6 @@ collect.py → stronger model → artifacts/*.md → gleanin (skill)
    model, rating). Run `collector/anonymize.py` to strip sensitive info.
 4. **Load** — Install the gleanin skill. It loads every rule in
    `artifacts/` at session start — no `CLAUDE.md` bloat.
-5. **Contribute** — Run `collector/anonymize.py`, review, open a PR.
 
 ## Installation
 
@@ -62,7 +61,8 @@ every session. Rules stay out of `CLAUDE.md`.
 
 ## Concrete results
 
-4 rules extracted from real sessions:
+4 rules extracted from one person's sessions. Your friction patterns
+will be different — use the pipeline to find yours.
 
 | Rule | What it prevents |
 |------|-----------------|
@@ -70,6 +70,14 @@ every session. Rules stay out of `CLAUDE.md`.
 | `delegation-preflight` | Delegating payload that the sub-agent silently drops |
 | `device-first-check` | Asking the user for facts the filesystem holds |
 | `credentialed-write-gate` | Writing infra to wrong scope without rollback |
+
+## Contributing
+
+**Experimental.** These artifacts reflect one setup. Your mileage will
+vary — the pipeline is the point, not the rule set.
+
+If you extract a rule that feels broadly useful, open a PR to
+`artifacts/`. Run `collector/anonymize.py` first. See `CONTRIBUTING.md`.
 
 ## Project structure
 
@@ -80,7 +88,7 @@ glean/
 │   ├── collect.py       ← friction scanner (Python stdlib)
 │   └── anonymize.py     ← strips sensitive info from artifacts
 ├── prompt.md            ← analysis protocol for the stronger model
-├── artifacts/           ← extracted rules (community-contributable)
+├── artifacts/           ← extracted rules (personal observations)
 ├── gleanin/             ← Claude Code skill that loads rules
 │   ├── SKILL.md         ← injected at session start
 │   └── sync.sh          ← rebuilds SKILL.md from artifacts/

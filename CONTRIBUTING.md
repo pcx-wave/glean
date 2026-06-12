@@ -1,6 +1,11 @@
 # Contributing a rule
 
-Rules are submitted via **pull requests** to `artifacts/`.
+**Experimental.** The existing artifacts come from one person's setup.
+Your friction patterns will differ — the real value is running your own
+pipeline.
+
+If you extract a rule that feels broadly useful, submit it via **pull
+request** to `artifacts/`.
 
 ## Flow
 
