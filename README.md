@@ -28,6 +28,32 @@ collect.py → stronger model → artifacts/*.md → gleanin (skill)
    session, so every rule in `artifacts/` is applied automatically — without
    pasting the rules themselves into `CLAUDE.md`.
 
+## Protocol index (two-tier loading)
+
+Not every distilled lesson fits the compact rule format. Longer, multi-rule
+protocols (with triggers and falsifiable success criteria) would blow the
+token budget if inlined into every session. `sync.sh` handles them with a
+second tier:
+
+- **Tier 1 — inlined rules**: every `artifacts/*.md` (compact
+  What/Rule/Check format) is rendered in full into `gleanin/SKILL.md`.
+  Always in context.
+- **Tier 2 — protocol index**: every `*.md` found in `GLEAN_PROTOCOL_DIRS`
+  (colon-separated, default `~/distillation/artifacts:~/fable-build/rules`)
+  gets ONE line in `gleanin/SKILL.md`: display name, trigger sentence, and
+  file path. The model reads the full protocol only when the trigger matches
+  the task at hand — the filesystem replaces context.
+
+Files whose name collides with an `artifacts/` rule are skipped (the inlined
+compact rule wins). Directories that don't exist are skipped silently, so
+the default works out of the box even if you don't have those pipelines.
+
+Point `GLEAN_PROTOCOL_DIRS` at your own protocol collections:
+
+```bash
+GLEAN_PROTOCOL_DIRS="$HOME/my-protocols:$HOME/team-playbooks" bash gleanin/sync.sh
+```
+
 ## Installation
 
 One-liner — clones glean, installs the gleanin skill, and wires it into
