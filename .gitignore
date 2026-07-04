@@ -2,6 +2,10 @@
 glean_workspace/
 findings/
 
+# Personal measurement data (never publish)
+metrics/
+__pycache__/
+
 # OS files
 .DS_Store
 Thumbs.db

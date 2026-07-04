@@ -98,6 +98,31 @@ The `@`-import added during installation loads `gleanin/SKILL.md`'s content
 one line lives in `CLAUDE.md` — the rules themselves stay in `artifacts/`
 and `gleanin/SKILL.md`.
 
+## Measuring impact
+
+Rules are only worth their context-token cost if they move the friction
+metric. `collector/metrics.py` closes that loop:
+
+```bash
+python3 collector/metrics.py --days 7            # aggregate + append CSV
+python3 collector/metrics.py --days 7 --dry-run  # table only
+```
+
+It aggregates friction density per model family (fable/opus/sonnet/haiku/
+other) over a sliding window and appends one row per family per day to
+`metrics/friction.csv` (idempotent — reruns the same day are skipped, so a
+weekly cron is safe). Compare rows before and after loading a new rule: if
+mean/median density does not drop for the model the rule targets, drop the
+rule.
+
+Caveats: families with few sessions or tiny line counts produce noisy
+densities (corrections are weighted 5x, so one correction in a small session
+dominates) — read `sessions` and `total_lines` before trusting a density.
+Delegated runs (Mistral Vibe, Gemini, ...) do not appear in these logs;
+they are measured separately by their own delegate run log.
+
+`metrics/` is gitignored — it is personal measurement data.
+
 ## Concrete results
 
 4 rules extracted from one person's Sonnet sessions. Your friction
