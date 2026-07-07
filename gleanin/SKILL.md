@@ -60,21 +60,23 @@ Rules from past failures. Apply every session.
 
 Trigger-loaded protocols. When a trigger matches the current task, Read the file before proceeding.
 
-- **Hang-bisect protocol — trace before retry, never escalate timeouts blind** — Load this whenever a script or pipeline invocation times out (exit 124), → read /home/pcx-pi/distillation/artifacts/hang-bisect-protocol.md
-- **Route census before auth policy — classify every endpoint once, edit once** — Load this whenever you are about to add or change authentication, API-key → read /home/pcx-pi/distillation/artifacts/route-census-before-auth.md
-- **Single-file batch edit — plan the change-set, then edit once** — Load this whenever a task requires **3 or more changes to the same file** → read /home/pcx-pi/distillation/artifacts/single-file-batch-edit.md
-- **boundary-aware handoff** — When dividing work between two or more models (or model sessions): → read /home/pcx-pi/fable-build/rules/boundary-aware-handoff.md
-- **content-integrity tests** — For data-driven products (games, rule engines, content systems): → read /home/pcx-pi/fable-build/rules/content-integrity-tests.md
-- **contract-first interface** — When building a system that runs across multiple targets (offline, online, → read /home/pcx-pi/fable-build/rules/contract-first-interface.md
-- **cost-time-quality accounting** — Every build produces a cost accounting artifact: → read /home/pcx-pi/fable-build/rules/cost-time-quality-accounting.md
-- **cross-model relay** — When routing build phases across multiple models: → read /home/pcx-pi/fable-build/rules/cross-model-relay.md
-- **deterministic default** — Use fixed seeds for all world/level generation: → read /home/pcx-pi/fable-build/rules/deterministic-default.md
-- **effort setting by phase** — When configuring a build phase, set effort level explicitly: → read /home/pcx-pi/fable-build/rules/effort-setting-by-phase.md
-- **goal-verification-report loop** — Replace step-based phase execution with a goal→report pattern for → read /home/pcx-pi/fable-build/rules/goal-verification-report.md
-- **phase stage verification** — When a phase spans significant work, split it into stages (1/2/3): → read /home/pcx-pi/fable-build/rules/phase-stage-verification.md
-- **review findings accounting** — Every code review produces a numbered list of findings. → read /home/pcx-pi/fable-build/rules/review-findings-accounting.md
-- **safety overfit testing** — For products that use LLM outputs (chatbots, content generators, agents): → read /home/pcx-pi/fable-build/rules/safety-overfit-testing.md
-- **thought-partner interview** — Before writing ANY spec, template, or brief, interview the model as a → read /home/pcx-pi/fable-build/rules/thought-partner-interview.md
-- **vision self-correction loop** — When the build produces visual output (UI, 3D scenes, renders, screenshots): → read /home/pcx-pi/fable-build/rules/vision-self-correction.md
+- **Exact form first — literal search, decisive git comparison, file-borne payloads** — Load this in any session that (a) greps source code, (b) makes claims about → read ~/distillation/artifacts/exact-form-first.md
+- **Hang-bisect protocol — trace before retry, never escalate timeouts blind** — Load this whenever a script or pipeline invocation times out (exit 124), → read ~/distillation/artifacts/hang-bisect-protocol.md
+- **Reproduce the report first — locate what the user sees before defending what you did** — Load this whenever a user disputes visible state: "your changes don't → read ~/distillation/artifacts/reproduce-report-first.md
+- **Route census before auth policy — classify every endpoint once, edit once** — Load this whenever you are about to add or change authentication, API-key → read ~/distillation/artifacts/route-census-before-auth.md
+- **Single-file batch edit — plan the change-set, then edit once** — Load this whenever a task requires **3 or more changes to the same file** — → read ~/distillation/artifacts/single-file-batch-edit.md
+- **boundary-aware handoff** — When dividing work between two or more models (or model sessions): → read ~/fable-build/rules/boundary-aware-handoff.md
+- **content-integrity tests** — For data-driven products (games, rule engines, content systems): → read ~/fable-build/rules/content-integrity-tests.md
+- **contract-first interface** — When building a system that runs across multiple targets (offline, online, → read ~/fable-build/rules/contract-first-interface.md
+- **cost-time-quality accounting** — Every build produces a cost accounting artifact: → read ~/fable-build/rules/cost-time-quality-accounting.md
+- **cross-model relay** — When routing build phases across multiple models: → read ~/fable-build/rules/cross-model-relay.md
+- **deterministic default** — Use fixed seeds for all world/level generation: → read ~/fable-build/rules/deterministic-default.md
+- **effort setting by phase** — When configuring a build phase, set effort level explicitly: → read ~/fable-build/rules/effort-setting-by-phase.md
+- **goal-verification-report loop** — Replace step-based phase execution with a goal→report pattern for → read ~/fable-build/rules/goal-verification-report.md
+- **phase stage verification** — When a phase spans significant work, split it into stages (1/2/3): → read ~/fable-build/rules/phase-stage-verification.md
+- **review findings accounting** — Every code review produces a numbered list of findings. → read ~/fable-build/rules/review-findings-accounting.md
+- **safety overfit testing** — For products that use LLM outputs (chatbots, content generators, agents): → read ~/fable-build/rules/safety-overfit-testing.md
+- **thought-partner interview** — Before writing ANY spec, template, or brief, interview the model as a → read ~/fable-build/rules/thought-partner-interview.md
+- **vision self-correction loop** — When the build produces visual output (UI, 3D scenes, renders, screenshots): → read ~/fable-build/rules/vision-self-correction.md
 
 <!-- end protocol index -->

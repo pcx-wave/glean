@@ -155,7 +155,8 @@ for pdir in protocol_dirs:
             content = fh.read()
         name = extract_display_name(stem, content)
         trigger = extract_trigger(content)
-        entry = f'- **{name}** — {trigger} → read {f}'
+        display_path = f.replace(os.path.expanduser('~'), '~', 1)
+        entry = f'- **{name}** — {trigger} → read {display_path}'
         protocol_entries.append(entry)
 
 # --- Phase 4: Build rules block ---
