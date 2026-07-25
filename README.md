@@ -2,6 +2,20 @@
 
 Improve your cheaper Claude models with daily guards from stronger ones.
 
+> **Status (2026-07-25): the author's own nightly pipeline is retired.** Kept here
+> because the tooling works and the artifacts are reusable, but a 45-day audit of
+> 86 sessions found the delivery mechanism, not the content, to be the problem:
+>
+> - 27 of 46 nightly runs (59%) produced nothing — the analyzer model was quota-blocked.
+> - Only **3 real working sessions** ever opened a generated protocol file; every other
+>   read was the analyzer reading its own artifacts to avoid duplicates.
+> - The two rules that *did* change behaviour were the ones compiled into
+>   **PostToolUse/PreToolUse hooks**, which fire deterministically.
+>
+> **If you use this repo, ship the output as hooks or as always-loaded text in
+> `CLAUDE.md` — not as a "read this protocol when X" index.** A trigger that depends
+> on the model choosing to open a file has a near-zero firing rate in practice.
+
 This repo has two tools:
 
 - **glean** — collects failure/friction session data and analyzes them
